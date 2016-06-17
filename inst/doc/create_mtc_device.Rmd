@@ -11,25 +11,111 @@ vignette: >
 
 # Creating MTCDevice Class
 
-There are a few ways to create the MTCDevice Class using mtconnectR.
+You can create and MTC Device Class by specifying a Delimited MTConnect Data (DMTCD) file and a devices.XML
 
-1. Specifying an adapter log file and a devices.XML
-2. Specifying an adapter log file and a link towards a working MTConnect Agent for the same device
+## DMTCD file and devices XML file - `create_mtc_device_from_dmtcd`
 
-## Adapter Log file and devices XML file
-
-The usage is straightforward. The user can provide ther path to the adapter log file and the devices XML and the package reads the files and packages the data into an easily usable MTCDevice S4 Data Structure.
+The usage is straightforward. The user can provide ther path to the Delimited MTConnect Data(DMTCD) file and the devices XML and the package reads the files and packages the data into an easily usable MTCDevice S4 Data Structure.
 
 ```{r}
-file_path_adapter_log = "extdata/tft-405-pfh.log"
-file_path_xml = "extdata/Devices.xml.txt"
-device_xml_name = "TFT-405-PFH"
-mtc_device = create_mtc_device_from_adapter_data(
-  system.file(file_path_adapter_log, package = "mtconnectR"),
+require(mtconnectR)
+file_path_dmtcd = "testdata/dataExtraction/test_dmtcd.log"
+file_path_xml = "testdata/dataExtraction/test_devices.xml"
+device_name = "test_device"
+mtc_device = create_mtc_device_from_dmtcd(
+  system.file(file_path_dmtcd, package = "mtconnectR"),
   system.file(file_path_xml, package = "mtconnectR"),
-  device_xml_name)
-
-
-print(summary(mtc_device))
+  device_name)
 
 ```
+
+## Using the basic convenience functions
+
+A few convenience functions are provided to help the user with the MTC Classes. They are:
+
+### getDataItem
+This function is used to get a single MTC data item from the MTC device class. If
+no parameters are provided, the first data item is returned. The user can optionally enter
+either a character string - in which case the data items whose paths match the character string
+are returned or one or more indexes. Please note that if the pattern matches more than one
+data item, a list of MTC Data Items is returned.
+
+```{r}
+# Get the first data item in the list
+mtc_data_item = getDataItem(mtc_device)
+print(mtc_data_item)
+
+# Get all the data items with "Xabs" in the name
+mtc_data_item = getDataItem(mtc_device, "Xabs")
+print(mtc_data_item)
+
+# Get the data item with the 5th index
+mtc_data_item = getDataItem(mtc_device, 5)
+print(mtc_data_item)
+
+# Get all data items with path matching the string 'POSITION'
+mtc_data_item_list = getDataItem(mtc_device, "POSITION")
+print(mtc_data_item)
+```
+
+### summary
+
+Displays a quick summary of the MTC Object with the following
+
+* Path to each data item
+* Number of Records
+* Start and End times
+* Type of data item (device, sample)
+
+```{r}
+
+print(summary(mtc_device))
+print(summary(mtc_data_item))
+
+```
+
+### getData
+
+If the user wants to get all the data from an MTC Object into a data.frame for further analysis,
+they can use the getData method. It converts all the time series data into a data.frame object.
+
+```{r}
+
+# Get Data from a MTC Device Class
+mtc_device_data = getData(mtc_device)
+print(mtc_device_data)
+
+# Get Data from a MTC Data item Class
+mtc_data_item_data = getData(mtc_data_item)
+print(mtc_data_item_data)
+
+```
+
+### merge
+
+One common use case for a user doing exploratory analysis is to see how the different data items
+interact with each other. The long format using `getData` method is not ideal for this. For this case,
+we can use the merge function to put all the data into a single time series by merging the data items.
+
+Also, the user can conveniently specify the pattern over which to merge or the indices to merge like
+case of the `getData` method. For Example `merge(x, "abc")' will merge all the objects that have the the 
+string "abc" in their name to one data frame. If no pattern is provided then all the data items are merged into one.
+
+
+```{r}
+
+# merge all the objects that have the string 'POSIT' into one data frame
+print(merge(mtc_device, "POSIT"))
+
+# merge data items with indices 3:5 into a data.frame
+print(merge(mtc_device, 3:5))
+
+# merge all the data items
+merged_mtc_device = (merge(mtc_device))
+
+# renaming column names to make it more readable
+names(merged_mtc_device) = stringr::str_replace(names(merged_mtc_device), "test_device<Device>:", "")
+print(merged_mtc_device)
+
+```
+

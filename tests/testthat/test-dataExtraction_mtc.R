@@ -1,6 +1,6 @@
 
 library("testthat")
-library(dplyr)
+library('dplyr')
 
 file_path_dmtcd = "testdata/dataExtraction/test_dmtcd.log"
 file_path_xml = "testdata/dataExtraction/test_devices.xml"
@@ -40,7 +40,7 @@ context("read_dmtcd_file")
 condition_names = c("servo_cond", "logic_cond")
 dmtcd = read_dmtcd_file(system.file(file_path_dmtcd, package = "mtconnectR"), condition_names)
 data("example_dmtcd")
-expect_equal(dmtcd, example_dmtcd)
+expect_equivalent(dmtcd, example_dmtcd)
 
 #===============================================================================
 
