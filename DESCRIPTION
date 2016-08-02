@@ -2,7 +2,7 @@ Package: mtconnectR
 Type: Package
 Title: Read Data from Delimited 'MTConnect' Data Files and Perform some
         Analysis
-Version: 1.0.0
+Version: 1.0.1
 Date: 2016-06-15
 Authors@R: c(
   person("Alex", "Joseph", email = "alex@systeminsights.com", role = c("aut")),
@@ -21,7 +21,7 @@ Description: Read data in the 'MTConnect'<http://www.mtconnect.org/> standard.
     based on the G code and visualisation functions to compare the actual and simulated data.
 Depends: R (>= 3.0.0)
 Imports: methods, data.table (>= 1.9.6), XML (>= 3.98), stringr (>=
-        1.0), plyr (>= 1.8.3), dplyr (>= 0.4.3), ggplot2, magrittr,
+        1.0), plyr (>= 1.8.3), dplyr (>= 0.5.0), ggplot2, magrittr,
         tidyr, dtw, proxy
 License: AGPL-3
 LazyData: TRUE
@@ -33,10 +33,10 @@ Suggests: knitr, rmarkdown, testthat, roxygen2
 BuildVignettes: yes
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2016-06-17 06:49:09 UTC; subramanyam
+Packaged: 2016-08-02 04:59:17 UTC; subramanyam
 Author: Alex Joseph [aut],
   Sainath Adapa [aut],
   Nitin Madasu [aut],
   Subramanyam Ravishankar [aut, cre]
 Repository: CRAN
-Date/Publication: 2016-06-17 21:20:51
+Date/Publication: 2016-08-02 09:13:26
