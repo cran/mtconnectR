@@ -25,7 +25,8 @@
 #' @importFrom dplyr rename
 #' @importFrom dplyr rename_
 #' @importFrom dplyr one_of
-#' @importFrom dplyr contains
+#' @importFrom dplyr contains 
+#' @importFrom dplyr transmute transmute_
 #' @importFrom dplyr everything
 #' @importFrom magrittr extract2
 #' @import methods
@@ -204,7 +205,7 @@ NULL
 #'                      x = c("a", "b", "c", "d"), y = c("e", "e", "e", "f"))
 #' convert_ts_to_interval(ts_data, time_colname = "ts", endtime_lastrow = ts_data$ts[1] + 10)
 convert_ts_to_interval <- function(df, endtime_lastrow = as.POSIXct(NA), arrange_cols = T,
-                                   time_colname = 'timestamp', round_duration = 2)
+                                   time_colname = 'timestamp', round_duration = 6)
 {
   start_col = which(colnames(df) == time_colname)
   if (!is.null(endtime_lastrow)) df$end = endtime_lastrow else
@@ -236,6 +237,8 @@ convert_ts_to_interval <- function(df, endtime_lastrow = as.POSIXct(NA), arrange
 #'
 #' @param df Data.frame in start, end, duration, value1, value2,...
 #' @param time_colname Name of the time column
+#' @param end_colname Name of the end time column
+#' @param remove_last Logical value to remove the last row in the result
 #'
 #' @seealso \code{\link{convert_ts_to_interval}}
 #' @export
@@ -247,20 +250,14 @@ convert_ts_to_interval <- function(df, endtime_lastrow = as.POSIXct(NA), arrange
 # '             x     = c("a", "b", "c", "d"),
 #'              y     = c("e", "e", "e", "f"))
 #' convert_interval_to_ts(test_interval)
-convert_interval_to_ts <- function(df, time_colname = 'start')
+convert_interval_to_ts <- function(df, time_colname = 'start', end_colname = 'end', remove_last = F)
 {
-  data_n = df
-  data_n$end = data_n$duration = NULL
-  data_n[nrow(data_n) + 1,] = NA
-  rownames(data_n) = NULL
-  data_n$start[nrow(data_n)] = tail(df$end, 1)
-
-  data_n[nrow(data_n), is.na( data_n[nrow(data_n), ])] = NA
-  colnames(data_n)[1] = "timestamp"
-
-  if (all(is.na(data_n[nrow(data_n),])) & nrow(data_n) > 1) data_n = data_n[1:(nrow(data_n)-1),]
-
-  return(data_n)
+  df = df %>% arrange_(time_colname)
+  df_1 = df %>% select(-contains(time_colname)) %>% transmute_("timestamp" = end_colname) 
+  df_2 = df %>% select(-contains(end_colname)) %>% rename_("timestamp" = time_colname)
+  
+  merged_df = merge(df_2, df_1, by = 'timestamp',  all = T)
+  if(remove_last) merged_df[-nrow(merged_df), ] %>% return() else merged_df %>% return()
 }
 
 
@@ -279,7 +276,7 @@ convert_interval_to_ts <- function(df, time_colname = 'start')
 #' clean_reduntant_rows(test_interval, "x")
 clean_reduntant_rows = function(df, clean_colname = "value", echo = F) {
   df = data.frame(df)
-  clean_col = grep(clean_colname, names(df))
+  clean_col = sapply(clean_colname, function(x) which(x == names(df)))
 
   if (echo) message(paste("Cleaning table with ", paste(names(df)[clean_col], collapse=","), " as basis..."))
 
