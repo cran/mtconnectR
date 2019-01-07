@@ -7,7 +7,7 @@
 filter_timestamps_mtc_device(mtc_device, start_time, end_time)
 }
 \arguments{
-\item{mtc_device}{is the MTCDevice object}
+\item{mtc_device}{is the MTCDevice objectcc}
 
 \item{start_time}{is the Start time}
 
@@ -22,4 +22,3 @@ start_time = as.POSIXct("2016-03-22 12:45:00.000")
 end_time = as.POSIXct("2016-03-22 12:45:10.000")
 filtered_data = filter_timestamps_mtc_device(example_mtc_device_3,start_time,end_time)
 }
-

@@ -5,7 +5,7 @@
 \title{Merges all the data.frames in the list into single data.frame}
 \usage{
 mergeTS(DF_list, output_DF = T, use_list_names = F,
-  additional_ts = .POSIXct(integer(0)))
+  additional_ts = .POSIXct(integer(0)), ignore_tz = F)
 }
 \arguments{
 \item{DF_list}{is a list of data.frames. Each data.frame should be of type timestamp|value1|value2...}
@@ -16,6 +16,8 @@ mergeTS(DF_list, output_DF = T, use_list_names = F,
 
 \item{additional_ts}{an POSIXct vector of timestamps which needs to be added into the table.
 The values are repeated from the previous timestamp}
+
+\item{ignore_tz}{timezone error is ignored.}
 }
 \description{
 Merges all the data.frames in the list into single data.frame
@@ -27,4 +29,3 @@ df_1 = mtc_device[seq(1,17,2),]
 df_2 = mtc_device[seq(2,17,2),]
 merged_df = mergeTS(list(df_1,df_2))
 }
-

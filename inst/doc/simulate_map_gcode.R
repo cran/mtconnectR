@@ -16,9 +16,8 @@ calc_feed = calculated_feed_from_position(mtc_device) %>%
   clean_reduntant_rows()
 
 ## ------------------------------------------------------------------------
-mtc_device = add_data_item_to_mtc_device(mtc_device, calc_feed, data_item_type = "Sample",
-                                         data_item_name = "pfr_calculated<PATH_FEEDRATE>",
-                                         source_type = "calculated")
+mtc_device = add_data_item_to_mtc_device(mtc_device, calc_feed, category = "SAMPLE",
+                                         data_item_name = "pfr_calculated<PATH_FEEDRATE>")
 
 # Using merge with regex pattern to choose only the position variables
 pos_data_mtc = merge(mtc_device, "path_pos") %>% filter(timestamp > as.POSIXct("2016-03-22"))

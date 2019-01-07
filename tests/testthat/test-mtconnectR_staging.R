@@ -28,4 +28,3 @@ expected_data = data.frame(timestamp = as.POSIXct(c("2016-03-22 12:45:00.134638"
 
 expect_equal(filtered_data,expected_data)
                            
-

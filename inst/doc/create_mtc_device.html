@@ -12,14 +12,14 @@
 
 <meta name="author" content="System Insights" />
 
-<meta name="date" content="2017-03-27" />
+<meta name="date" content="2019-01-07" />
 
 <title>create_mtc_device</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -70,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">create_mtc_device</h1>
 <h4 class="author"><em>System Insights</em></h4>
-<h4 class="date"><em>2017-03-27</em></h4>
+<h4 class="date"><em>2019-01-07</em></h4>
 
 
 
@@ -209,17 +231,12 @@ mtc_data_item =<span class="st"> </span><span class="kw">getDataItem</span>(mtc_
 ##                 timestamp value
 ## 1 2014-07-15 07:04:25.608   100
 ## 
-## Slot &quot;data_type&quot;:
-## [1] &quot;Sample&quot;
+## Slot &quot;metadata&quot;:
+## $category
+## [1] &quot;SAMPLE&quot;
 ## 
-## Slot &quot;path&quot;:
-## [1] &quot;test_device&lt;Device&gt;:Frapidovr&lt;PATH_FEEDRATE-OVERRIDE&gt;&quot;
-## 
-## Slot &quot;dataSource&quot;:
-## [1] &quot;logData&quot;
-## 
-## Slot &quot;xmlID&quot;:
-## [1] &quot;No XML ID found&quot;</code></pre>
+## $xpath
+## [1] &quot;test_device&lt;Device&gt;:Frapidovr&lt;PATH_FEEDRATE-OVERRIDE&gt;&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get all the data items with &quot;Xabs&quot; in the name</span>
 mtc_data_item =<span class="st"> </span><span class="kw">getDataItem</span>(mtc_device, <span class="st">&quot;Xabs&quot;</span>)
 <span class="kw">print</span>(mtc_data_item)</code></pre></div>
@@ -244,17 +261,12 @@ mtc_data_item =<span class="st"> </span><span class="kw">getDataItem</span>(mtc_
 ## 16 2014-07-15 07:05:24.875  32.88030
 ## 17 2014-07-15 07:05:29.092 -51.92649
 ## 
-## Slot &quot;data_type&quot;:
-## [1] &quot;Sample&quot;
+## Slot &quot;metadata&quot;:
+## $category
+## [1] &quot;SAMPLE&quot;
 ## 
-## Slot &quot;path&quot;:
-## [1] &quot;test_device&lt;Device&gt;:Xabs&lt;POSITION-ACTUAL&gt;&quot;
-## 
-## Slot &quot;dataSource&quot;:
-## [1] &quot;logData&quot;
-## 
-## Slot &quot;xmlID&quot;:
-## [1] &quot;No XML ID found&quot;</code></pre>
+## $xpath
+## [1] &quot;test_device&lt;Device&gt;:Xabs&lt;POSITION-ACTUAL&gt;&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get the data item with the 5th index</span>
 mtc_data_item =<span class="st"> </span><span class="kw">getDataItem</span>(mtc_device, <span class="dv">5</span>)
 <span class="kw">print</span>(mtc_data_item)</code></pre></div>
@@ -279,17 +291,12 @@ mtc_data_item =<span class="st"> </span><span class="kw">getDataItem</span>(mtc_
 ## 16 2014-07-15 07:05:24.875 272.85950
 ## 17 2014-07-15 07:05:29.092 263.14527
 ## 
-## Slot &quot;data_type&quot;:
-## [1] &quot;Sample&quot;
+## Slot &quot;metadata&quot;:
+## $category
+## [1] &quot;SAMPLE&quot;
 ## 
-## Slot &quot;path&quot;:
-## [1] &quot;test_device&lt;Device&gt;:Yabs&lt;POSITION-ACTUAL&gt;&quot;
-## 
-## Slot &quot;dataSource&quot;:
-## [1] &quot;logData&quot;
-## 
-## Slot &quot;xmlID&quot;:
-## [1] &quot;No XML ID found&quot;</code></pre>
+## $xpath
+## [1] &quot;test_device&lt;Device&gt;:Yabs&lt;POSITION-ACTUAL&gt;&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get all data items with path matching the string 'POSITION'</span>
 mtc_data_item_list =<span class="st"> </span><span class="kw">getDataItem</span>(mtc_device, <span class="st">&quot;POSITION&quot;</span>)
 <span class="kw">print</span>(mtc_data_item)</code></pre></div>
@@ -314,17 +321,12 @@ mtc_data_item_list =<span class="st"> </span><span class="kw">getDataItem</span>
 ## 16 2014-07-15 07:05:24.875 272.85950
 ## 17 2014-07-15 07:05:29.092 263.14527
 ## 
-## Slot &quot;data_type&quot;:
-## [1] &quot;Sample&quot;
+## Slot &quot;metadata&quot;:
+## $category
+## [1] &quot;SAMPLE&quot;
 ## 
-## Slot &quot;path&quot;:
-## [1] &quot;test_device&lt;Device&gt;:Yabs&lt;POSITION-ACTUAL&gt;&quot;
-## 
-## Slot &quot;dataSource&quot;:
-## [1] &quot;logData&quot;
-## 
-## Slot &quot;xmlID&quot;:
-## [1] &quot;No XML ID found&quot;</code></pre>
+## $xpath
+## [1] &quot;test_device&lt;Device&gt;:Yabs&lt;POSITION-ACTUAL&gt;&quot;</code></pre>
 </div>
 <div id="summary" class="section level3">
 <h3>summary</h3>
@@ -336,25 +338,11 @@ mtc_data_item_list =<span class="st"> </span><span class="kw">getDataItem</span>
 <li>Type of data item (device, sample)</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">summary</span>(mtc_device))</code></pre></div>
-<pre><code>##                                                    path Records
-## 1 test_device&lt;Device&gt;:Frapidovr&lt;PATH_FEEDRATE-OVERRIDE&gt;       1
-## 2      test_device&lt;Device&gt;:Sovr&lt;SPINDLE_SPEED-OVERRIDE&gt;       1
-## 3             test_device&lt;Device&gt;:Xabs&lt;POSITION-ACTUAL&gt;      17
-## 4                       test_device&lt;Device&gt;:Xload&lt;LOAD&gt;       8
-## 5             test_device&lt;Device&gt;:Yabs&lt;POSITION-ACTUAL&gt;      17
-## 6                       test_device&lt;Device&gt;:Yload&lt;LOAD&gt;       7
-##                     start                     end data_type
-## 1 2014-07-15 07:04:25.608 2014-07-15 07:04:25.608    Sample
-## 2 2014-07-15 07:04:25.608 2014-07-15 07:04:25.608    Sample
-## 3 2014-07-15 07:04:25.608 2014-07-15 07:05:29.092    Sample
-## 4 2014-07-15 07:04:25.608 2014-07-15 07:05:20.710    Sample
-## 5 2014-07-15 07:04:25.608 2014-07-15 07:05:29.092    Sample
-## 6 2014-07-15 07:04:25.608 2014-07-15 07:05:29.092    Sample</code></pre>
+<pre><code>##    Length     Class      Mode 
+##         1 MTCDevice        S4</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">summary</span>(mtc_data_item))</code></pre></div>
-<pre><code>##                                        path Records
-## 1 test_device&lt;Device&gt;:Yabs&lt;POSITION-ACTUAL&gt;      17
-##                     start                     end data_type
-## 1 2014-07-15 07:04:25.608 2014-07-15 07:05:29.092    Sample</code></pre>
+<pre><code>##      Length       Class        Mode 
+##           1 MTCDataItem          S4</code></pre>
 </div>
 <div id="getdata" class="section level3">
 <h3>getData</h3>
@@ -531,7 +519,7 @@ mtc_data_item_data =<span class="st"> </span><span class="kw">getData</span>(mtc
 ## 16                                 272.85950
 ## 17                                 263.14527</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># merge data items with indices 3:5 into a data.frame</span>
-<span class="kw">print</span>(<span class="kw">merge</span>(mtc_device, <span class="dv">3</span>:<span class="dv">5</span>))</code></pre></div>
+<span class="kw">print</span>(<span class="kw">merge</span>(mtc_device, <span class="dv">3</span><span class="op">:</span><span class="dv">5</span>))</code></pre></div>
 <pre><code>##                  timestamp test_device&lt;Device&gt;:Xabs&lt;POSITION-ACTUAL&gt;
 ## 1  2014-07-15 07:04:25.608                                   8.26262
 ## 2  2014-07-15 07:04:25.788                                   4.61391
@@ -590,7 +578,7 @@ mtc_data_item_data =<span class="st"> </span><span class="kw">getData</span>(mtc
 merged_mtc_device =<span class="st"> </span>(<span class="kw">merge</span>(mtc_device))
 
 <span class="co"># renaming column names to make it more readable</span>
-<span class="kw">names</span>(merged_mtc_device) =<span class="st"> </span>stringr::<span class="kw">str_replace</span>(<span class="kw">names</span>(merged_mtc_device), <span class="st">&quot;test_device&lt;Device&gt;:&quot;</span>, <span class="st">&quot;&quot;</span>)
+<span class="kw">names</span>(merged_mtc_device) =<span class="st"> </span>stringr<span class="op">::</span><span class="kw">str_replace</span>(<span class="kw">names</span>(merged_mtc_device), <span class="st">&quot;test_device&lt;Device&gt;:&quot;</span>, <span class="st">&quot;&quot;</span>)
 <span class="kw">print</span>(merged_mtc_device)</code></pre></div>
 <pre><code>##                  timestamp Frapidovr&lt;PATH_FEEDRATE-OVERRIDE&gt;
 ## 1  2014-07-15 07:04:25.608                               100
@@ -657,7 +645,7 @@ merged_mtc_device =<span class="st"> </span>(<span class="kw">merge</span>(mtc_d
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

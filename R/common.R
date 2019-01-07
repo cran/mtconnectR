@@ -28,6 +28,7 @@
 #' @importFrom dplyr contains 
 #' @importFrom dplyr transmute transmute_
 #' @importFrom dplyr everything
+#' @importFrom lubridate ymd_hms
 #' @importFrom magrittr extract2
 #' @import methods
 #' @import ggplot2
@@ -266,6 +267,7 @@ convert_interval_to_ts <- function(df, time_colname = 'start', end_colname = 'en
 #' @param df Data.frame in timestamp, value1, value2,...
 #' @param clean_colname Name of the column to clean as basis
 #' @param echo Whether to return messages or not
+#' @param clean_na Whether to clean NA's when they are redundant
 #'
 #' @export
 #' @examples
@@ -274,22 +276,35 @@ convert_interval_to_ts <- function(df, time_colname = 'start', end_colname = 'en
 #'             x     = c("a", "b", "b", "b"),
 #'              y     = c("e", "e", "e", "f"))
 #' clean_reduntant_rows(test_interval, "x")
-clean_reduntant_rows = function(df, clean_colname = "value", echo = F) {
+clean_reduntant_rows = function(df, clean_colname = "value", echo = F, clean_na = F) {
+  
   df = data.frame(df)
   clean_col = sapply(clean_colname, function(x) which(x == names(df)))
-
   if (echo) message(paste("Cleaning table with ", paste(names(df)[clean_col], collapse=","), " as basis..."))
-
   if (length(clean_col) == 0 ) message("No Columns match the required pattern for cleaning!")
-  if (length(clean_col) > 1 )  pasted_vector = do.call(paste, df[clean_col]) else
-    pasted_vector = df[[clean_col]]
+  if (length(clean_col) == 1 ) pasted_vector = df[[clean_col]]
+  if (length(clean_col) > 1 ) pasted_vector = get_clean_pasted_vector(df, clean_col)
+  
+  selected_rows = get_selected_rows(pasted_vector, clean_na)
+  
+  df = df[selected_rows,, drop=FALSE]
+  rownames(df) = NULL
+  return(df)
+}
 
+get_selected_rows <- function(pasted_vector, clean_na){
+  if(clean_na) pasted_vector = paste0(pasted_vector)
   data_n = diff(as.numeric(as.factor(pasted_vector)))
   data_n[is.na(data_n)] = -100
   selected_rows = c(T, abs(data_n)!= 0)
-  df = df[selected_rows,]
-  rownames(df) = NULL
-  return(df)
+  return(selected_rows)
+}
+
+get_clean_pasted_vector <- function(df, clean_col){
+  pasted_vector = do.call(paste, df[clean_col])
+  NA_pattern = paste(replicate(length(clean_col), "NA"), collapse = " ")
+  pasted_vector = ifelse(grepl(NA_pattern, pasted_vector), NA,pasted_vector)
+  return(pasted_vector)
 }
 
 #' Subset a data frame using regex matching on the column name and also on the value

@@ -1,5 +1,6 @@
 
 library("testthat")
+library('plyr')
 library('dplyr')
 
 #===============================================================================
@@ -41,6 +42,43 @@ test_interval =
              y     = c("e", "e", "e", "f"))
 expected_df = test_interval[c(1,2), ]
 expect_equal(expected_df, clean_reduntant_rows(test_interval, "x"))
+
+test_that("Returns df even for an input df with one column", {
+   
+  input_df = data.frame(col = c("A","A","B","C"))
+  expected = data.frame(col = c("A","B","C"))
+  expect_equal(expected, clean_reduntant_rows(input_df, "col"))
+})
+
+test_that("Cleans NA on 1 column", {
+  
+  input_df =  data.frame(a = c(1,2,2,3,3,NA,NA,4,5), b = c(1,2,2,99,99,99,3,4,5))
+  expected_df = data.frame(a = c(1,2,3,NA,4,5), b = c(1,2,99,99,4,5))
+  expect_equal(expected_df, clean_reduntant_rows(input_df, "a", clean_na = T))
+})
+
+test_that("Does Not Clean NA on 1 column", {
+  
+  input_df =  data.frame(a = c(1,2,2,3,3,NA,NA,4,5), b = c(1,2,2,99,99,99,3,4,5))
+  expected_df = data.frame(a = c(1,2,3,NA,NA,4,5), b = c(1,2,99,99,3,4,5))
+  expect_equal(expected_df, clean_reduntant_rows(input_df, "a", clean_na = F))
+})
+
+test_that("Cleans NA on 2 columns", {
+  
+  input_df =  data.frame(a = c(1,2,2,3,3,NA,NA,4,5), b = c(1,2,2,99,NA,NA,NA,4,5))
+  expected_df = data.frame(a = c(1,2,3,3,NA,4,5), b = c(1,2,99,NA,NA,4,5))
+  expect_equal(expected_df, clean_reduntant_rows(input_df, c("a", "b"), clean_na = T))
+})
+
+test_that("Does Not Clean NA on 2 columns", {
+  
+  input_df =  data.frame(a = c(1,2,2,3,3,NA,NA,4,5), b = c(1,2,2,99,NA,NA,NA,4,5))
+  expected_df = data.frame(a = c(1,2,3,3,NA,NA,4,5), b = c(1,2,99,NA,NA,NA,4,5))
+  expect_equal(expected_df, clean_reduntant_rows(input_df, c("a", "b"), clean_na = F))
+})
+
+
 
 #===============================================================================
 context("grep_subset")
